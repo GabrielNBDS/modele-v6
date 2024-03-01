@@ -1,4 +1,4 @@
-import './css/app.css'
+import { MantineProvider } from '@mantine/core'
 
 import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
@@ -11,12 +11,16 @@ createInertiaApp({
   title: (title) => `${title} - ${appName}`,
 
   resolve: (name) => {
-    const pages = import.meta.glob('./pages/**/*.tsx', { eager: true })
-    return pages[`./pages/${name}.tsx`]
+    const pages = import.meta.glob('./pages/**/page.tsx', { eager: true })
+    return pages[`./pages/${name}/page.tsx`]
   },
 
   setup({ el, App, props }) {
     const root = createRoot(el)
-    root.render(<App {...props} />)
+    root.render(
+      <MantineProvider>
+        <App {...props} />
+      </MantineProvider>
+    )
   },
 })
